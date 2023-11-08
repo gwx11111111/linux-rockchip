@@ -143,9 +143,8 @@ static const char * const es8323_mono_mux[] = {
 static const char * const es8323_diff_sel[] = {
 	"Line 1", "Line 2"
 };
-
-SOC_VALUE_ENUM_SINGLE_DECL(es8323_left_dac_enum, ES8323_ADCCONTROL2, 6, 3, es8323_pga_sell, es8323_line_values);
-SOC_VALUE_ENUM_SINGLE_DECL(es8323_right_dac_enum, ES8323_ADCCONTROL2, 4, 3, es8323_pga_selr, es8323_line_values);
+SOC_VALUE_ENUM_SINGLE_DECL(es8323_left_dac_enum, ES8323_ADCCONTROL2, 6, 0, es8323_pga_sell, es8323_line_values);
+SOC_VALUE_ENUM_SINGLE_DECL(es8323_right_dac_enum, ES8323_ADCCONTROL2, 4, 0, es8323_pga_selr, es8323_line_values);
 static SOC_ENUM_SINGLE_DECL(es8323_diff_enum, ES8323_ADCCONTROL3, 7, es8323_diff_sel);
 static SOC_ENUM_SINGLE_DECL(es8323_llin_enum, ES8323_DACCONTROL16, 3, es8323_lin_sell);
 static SOC_ENUM_SINGLE_DECL(es8323_rlin_enum, ES8323_DACCONTROL16, 0, es8323_lin_selr);
@@ -627,6 +626,9 @@ static int es8323_set_bias_level(struct snd_soc_component *component,
 
 	switch (level) {
 	case SND_SOC_BIAS_ON:
+        snd_soc_component_write(component, 0x0a, 0x00);
+        snd_soc_component_write(component, 0x2e, 0x1e);
+        snd_soc_component_write(component, 0x2f, 0x1e);
 		dev_dbg(component->dev, "%s on\n", __func__);
 		break;
 	case SND_SOC_BIAS_PREPARE:
@@ -657,7 +659,6 @@ static int es8323_set_bias_level(struct snd_soc_component *component,
 	case SND_SOC_BIAS_OFF:
 		dev_dbg(component->dev, "%s off\n", __func__);
 		snd_soc_component_write(component, ES8323_ADCPOWER, 0xFF);
-		snd_soc_component_write(component, ES8323_DACPOWER, 0xC0);
 		snd_soc_component_write(component, ES8323_CHIPLOPOW1, 0xFF);
 		snd_soc_component_write(component, ES8323_CHIPLOPOW2, 0xFF);
 		snd_soc_component_write(component, ES8323_CHIPPOWER, 0xFF);
@@ -732,6 +733,8 @@ static int es8323_resume(struct snd_soc_component *component)
 	snd_soc_component_write(component, ES8323_CHIPPOWER, 0x00);
 	snd_soc_component_write(component, ES8323_DACPOWER, 0x0c);
 	snd_soc_component_write(component, ES8323_ADCPOWER, 0x59);
+	snd_soc_component_write(component, 0x2e, 0x1e);
+    snd_soc_component_write(component, 0x2f, 0x1e);
 	snd_soc_component_write(component, 0x31, es8323_DEF_VOL);
 	snd_soc_component_write(component, 0x30, es8323_DEF_VOL);
 	snd_soc_component_write(component, 0x19, 0x02);
