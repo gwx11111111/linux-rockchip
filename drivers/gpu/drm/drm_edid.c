@@ -1201,11 +1201,6 @@ static const struct drm_display_mode edid_cea_modes_1[] = {
 		   3152, 3300, 0, 1080, 1084, 1089, 1250, 0,
 		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC),
 	  .picture_aspect_ratio = HDMI_PICTURE_ASPECT_64_27, },
-	/* 93 - 3440x1440@50Hz 16:9 */
-	{ DRM_MODE("3440x1440", DRM_MODE_TYPE_DRIVER, 266580, 3440, 3488,
-		   3520, 3600, 0, 1440, 1443, 1448, 1481, 0,
-		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC),
-	  .picture_aspect_ratio = HDMI_PICTURE_ASPECT_16_9, },
 	/* 93 - 3840x2160@24Hz 16:9 */
 	{ DRM_MODE("3840x2160", DRM_MODE_TYPE_DRIVER, 297000, 3840, 5116,
 		   5204, 5500, 0, 2160, 2168, 2178, 2250, 0,
@@ -1381,6 +1376,11 @@ static const struct drm_display_mode edid_cea_modes_1[] = {
 		   6304, 6600, 0, 2160, 2168, 2178, 2250, 0,
 		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC),
 	  .picture_aspect_ratio = HDMI_PICTURE_ASPECT_64_27, },
+	/* 128 - 3440x1440@50Hz 16:9 */
+	{ DRM_MODE("3440x1440", DRM_MODE_TYPE_DRIVER, 266580, 3440, 3488,
+		   3520, 3600, 0, 1440, 1443, 1448, 1481, 0,
+		   DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC),
+	  .picture_aspect_ratio = HDMI_PICTURE_ASPECT_16_9, },
 };
 
 /*
@@ -3554,7 +3554,7 @@ static u8 *drm_find_cea_extension(const struct edid *edid)
 
 static __always_inline const struct drm_display_mode *cea_mode_for_vic(u8 vic)
 {
-	BUILD_BUG_ON(1 + ARRAY_SIZE(edid_cea_modes_1) - 1 != 127);
+	BUILD_BUG_ON(1 + ARRAY_SIZE(edid_cea_modes_1) - 1 != 128);
 	BUILD_BUG_ON(193 + ARRAY_SIZE(edid_cea_modes_193) - 1 != 219);
 
 	if (vic >= 1 && vic < 1 + ARRAY_SIZE(edid_cea_modes_1))
