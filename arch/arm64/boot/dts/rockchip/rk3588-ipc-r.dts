@@ -21,8 +21,8 @@
 #include "rk3588-linux.dtsi"
 
 / {
-	model = "Beelink IPC-R Board";
-	compatible = "beelink,ipc-r", "rockchip,rk3588";
+	model = "Bee IPC-R Board";
+	compatible = "bee,ipc-r", "rockchip,rk3588";
 	/delete-node/ chosen;
 
 	vcc12v_dcin: vcc12v-dcin {
@@ -622,6 +622,24 @@
                  | RKPM_GPIO_WKUP_EN
                  )
          >;
+};
+&vdd_log_s0 {
+	regulator-state-mem {
+	regulator-on-in-suspend;
+	regulator-suspend-microvolt = <750000>;
+	};
+};
+
+&vcc_3v3_s0 {
+	regulator-state-mem {
+		regulator-on-in-suspend;
+	};
+};
+
+&vcc_1v8_s0 {
+	regulator-state-mem {
+		regulator-on-in-suspend;
+	};
 };
 
 
