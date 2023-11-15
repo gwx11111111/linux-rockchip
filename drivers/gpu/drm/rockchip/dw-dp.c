@@ -1258,7 +1258,7 @@ static int dw_dp_connector_get_modes(struct drm_connector *connector)
 	if (!di->color_formats)
 		di->color_formats = DRM_COLOR_FORMAT_RGB444;
 
-	if (!di->bpc)
+	//if (!di->bpc)
 		di->bpc = 8;
 
 	if (num_modes > 0 && dp->split_mode) {
